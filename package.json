@@ -1,0 +1,17 @@
+{
+  "name": "dump1090-monitor",
+  "version": "1.0.0",
+  "description": "Monitor dump1090 json feed and call webhooks based on content",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dump1090"
+  ],
+  "author": "Sam Lord",
+  "license": "MIT",
+  "dependencies": {
+    "simple-get": "^4.0.0"
+  }
+}
