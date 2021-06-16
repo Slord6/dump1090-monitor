@@ -90,6 +90,10 @@ function fetchData(endpoint, cb) {
     })
 }
 
+function postData(call, cb) {
+    get.post(call, cb);
+}
+
 /**
  * Add JSONified 'content', flightaware link, title and apikey for injecting into urls with the {{notation}}
  * @param {*} data 
@@ -104,6 +108,14 @@ function addMetadata(data) {
         datum.title = "Aircraft found";
     });
     return data;
+}
+
+function handleWebhookResponse(err, data, method) {
+    if(err) {
+        console.log(err);
+    } else {
+        console.log(`Webhook (${method}) res: OK`);
+    }
 }
 
 /**
@@ -125,13 +137,9 @@ function webhookTick(apiKey) {
         console.log(JSON.stringify(requiredCalls));
         requiredCalls.forEach(call => {
             if(call.method == "GET")  {
-                fetchData(call.url, (err, data) => {
-                    if(err) {
-                        console.log(err);
-                    } else {
-                        console.log("Push res: " + JSON.stringify(data));
-                    }
-                });
+                fetchData(call.url, (err, data) => handleWebhookResponse(err, data, call.method));
+            } else if(call.method == "POST") {
+                postData(call, (err, data) => handleWebhookResponse(err, data, call.method));
             } else {
                 console.error(call.url + " not supported - " + call.method);
             }
