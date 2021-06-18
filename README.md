@@ -20,7 +20,7 @@ Invoke node on index.js, optionally passing an apiKey
 
 ## Config
 
-All configuration can be done in `config.js`, an example config is below, assuming use of [Push notification API](https://play.google.com/store/apps/details?id=net.xdroid.pn&hl=en_GB&gl=US) app.
+All configuration can be done in `config.js`, an example config is below, assuming use of [Push notification API](https://play.google.com/store/apps/details?id=net.xdroid.pn&hl=en_GB&gl=US) app and [Pushover](https://pushover.net/)
 
 ```JavaScript
 const config = {
@@ -31,10 +31,17 @@ const config = {
     // Webhooks to be called when any flight data matches a filter
     // Each webhook is called once for each matching datum
     webhooks: [
+        // Example for Push notification API
         {
             uri: 'http://xdroid.net/api/message?k={{key}}&t={{title}}&u={{flightaware}}&c={{content}}',
             method: 'GET',
             body: ''
+        },
+        // Example for Pushover
+        {
+            uri: 'https://api.pushover.net/1/messages.json',
+            method: 'POST',
+            body: 'token={{key}}&user=<add user key here>&title={{title}}&message={{content}}'
         }
     ],
     // Array of filters, if a datum passes any filter, webhooks are invoked for
