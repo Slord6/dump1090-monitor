@@ -61,7 +61,7 @@ exports.config = config;
 
 ## Data injection
 
-The webhook URLs can be injected with dynamic data for each call like so: 
+The webhook URLs (and for POST requests, body) can be injected with dynamic data for each call like so: 
 
 `http://example.com?key={{apiKey}}`
 
