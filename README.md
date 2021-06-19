@@ -6,17 +6,47 @@ The program is generic enough that it could probably be modified quite easily fo
 
 ## Install
 
-```cmd
-git clone <this>
+You'll need `npm` and `node` installed. For a Raspberry Pi, there's a good tutorial [on makersupplies](https://www.makersupplies.sg/blogs/tutorials/how-to-install-node-js-and-npm-on-the-raspberry-pi) which should get you there.
+
+You will also need `git`, which is probably installed already. You can run `git --version` on the pi, and if you get something like `git version 2.11.0` then you're all good. Otherwise just run:
+
+```bash
+sudo apt update
+sudo apt install git
+```
+
+Finally, you should be ready to install `dump1090-monitor`. Just run these commands in order:
+
+```bash
+cd /home/pi/Documents
+git clone https://github.com/Slord6/dump1090-monitor.git
+cd dump1090-monitor/
 npm i
 ```
+
+Now you can run it (but may want to sort your config first - see below).
 
 ### Run
 
 Invoke node on index.js, optionally passing an apiKey
 
-`node .\index.js <apiKey>`
+```bash
+node .\index.js <apiKey>
+```
 
+#### Run on startup
+
+There are a few ways to do this - I just use `rc.local`. Open the file to edit:
+
+```bash
+sudo nano /etc/rc.local
+```
+
+Then, prior to `exit 0` (and after dump1090's startup if that is done here), at the bottom add:
+
+`node /home/pi/Documents/dump1090-monitor/index.js <optional api key> &`
+
+The `&` is important; it allows the `rc.local` script to continue whilst dump1090-monitor runs separately.
 
 ## Config
 
@@ -58,6 +88,9 @@ const config = {
 exports.config = config;
 ```
 
+Any changes to the config will require restarting the program.
+
+If there is a service you want added to the default config, just [open an issue](https://github.com/Slord6/dump1090-monitor/issues/new/choose).
 
 ## Data injection
 
